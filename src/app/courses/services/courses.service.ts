@@ -15,12 +15,29 @@ export class CoursesService {
   list() {
     return this.httpClient.get<Course[]>(this.API).pipe(
       first(),
-      //delay(3000),
-      tap((courses) => console.log(courses))
     );
   }
 
-  save(record: Partial<Course>) {
-    return this.httpClient.post<Course>(this.API, record);
+  //Load e não find pois está carregando um form com os dados e não buscando os dados
+  loadById(id: string) {
+    return this.httpClient.get<Course>(`${this.API}/${id}`);
   }
+
+  save(record: Partial<Course>) {
+
+    if(record._id){
+      return this.update(record);
+    }
+
+    return this.create(record);
+  }
+
+  private create(record: Partial<Course>){
+    return this.httpClient.post<Course>(this.API, record).pipe(first());
+  }
+
+  private update(record: Partial<Course>){
+    return this.httpClient.put<Course>(`${this.API}/${record._id}`, record).pipe(first());
+  }
+
 }

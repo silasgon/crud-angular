@@ -3,8 +3,8 @@ import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { catchError, Observable, of } from 'rxjs';
 
-import { Course } from '../../model/course';
 import { ErrorDialogComponent } from '../../../shared/components/error-dialog/error-dialog.component';
+import { Course } from '../../model/course';
 import { CoursesService } from '../../services/courses.service';
 
 @Component({
@@ -15,11 +15,6 @@ import { CoursesService } from '../../services/courses.service';
 export class CoursesComponent implements OnInit {
   //Tratamento para tipo Observabel<>
   courses$: Observable<Course[]>;
-
-  //Tratamento tipo Array
-  //courses: Course[] = [];
-
-  //coursesService: CoursesService;
 
   constructor(
     private coursesService: CoursesService,
@@ -49,5 +44,9 @@ export class CoursesComponent implements OnInit {
 
   onAdd() {
     this.router.navigate(['new'], { relativeTo: this.route });
+  }
+
+  onEdit(course: Course) {
+    this.router.navigate(['edit', course._id], {relativeTo: this.route })
   }
 }
